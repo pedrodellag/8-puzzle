@@ -1,9 +1,10 @@
 import copy
 import sys
 from functools import total_ordering
+from helpers import print_path
 
 solution_array = [1, 2, 3, 4, 5, 6, 7, 8, 0]
-
+matrix_size = 3
 solution_state = [[1, 2, 3], 
                 [4, 5, 6], 
                 [7, 8, 0]]
@@ -11,6 +12,8 @@ solution_state = [[1, 2, 3],
 initial_state = [[1, 2, 3], 
                 [4, 5, 6], 
                 [7, 0, 8]]
+
+initial_state_empty_tile_coord = [ 2, 1 ]  
 
 @total_ordering
 class Node: 
@@ -25,11 +28,14 @@ class Node:
     def __lt__(self, next):
         self.cost < next.cost
 
+def calculate_costs(problem_state, solution_state) -> int:
+    tiles_off_position_costs = get_num_tiles_off_position(problem_state, solution_state)
+    
+    return tiles_off_position_costs
 
 def get_num_tiles_off_position(problem_state, solution_state) -> int:
     count = 0
-    matrix_size = 3
-
+    
     for i in range(matrix_size):
         for j in range(matrix_size):
             if(problem_state[i][j] != solution_state[i][j]):
@@ -39,9 +45,6 @@ def get_num_tiles_off_position(problem_state, solution_state) -> int:
 
 def create_nodes(matrix, empty_tile_coord, new_empty_tile_coord, num_level, parent) -> Node:
     new_matrix = copy.deepcopy(matrix)
-
-        # Copying data from the parent matrixes to the present matrixes  
-    new_mats = copy.deepcopy(matrix)  
   
     # Moving the tile by 1 position  
     x1 = empty_tile_coord[0]  
@@ -56,25 +59,25 @@ def create_nodes(matrix, empty_tile_coord, new_empty_tile_coord, num_level, pare
     return new_nodes 
 
 
-
-def print_path(root_path):
+def solve_puzzle(initial, empty_tile_coord, solution):
+    initial_node_costs = calculate_costs(initial, solution)
     
-    if root_path is None:
-        return
+    root_node = Node(None, initial, empty_tile_coord, initial_node_costs, 0)
     
-    print_path(root_path.root)
-
-
-def print_matrix(matrix):
-    return
-
-
-def solve_puzzle(initial, empty_tile_coord):
+    open_nodes.append(root_node)
+    open_nodes.sort()
+    
+    print_path(root_node, matrix_size)
     return
 
 
 if __name__ == '__main__':
-    nodos_abertos = []
-    nodos_visitados = []
+    open_nodes = []
+    visited_nodes = []
+    
+    solve_puzzle(initial_state, initial_state_empty_tile_coord, solution_state)
+    
+    print(open_nodes)
+    print(visited_nodes)
 
     
