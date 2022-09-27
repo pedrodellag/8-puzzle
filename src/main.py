@@ -51,9 +51,9 @@ def create_nodes(matrix, empty_tile_coord, new_empty_tile_coord, num_level, pare
     y1 = empty_tile_coord[1]  
     x2 = new_empty_tile_coord[0]  
     y2 = new_empty_tile_coord[1]  
-    new_mats[x1][y1], new_mats[x2][y2] = new_mats[x2][y2], new_mats[x1][y1]
+    new_matrix[x1][y1], new_matrix[x2][y2] = new_matrix[x2][y2], new_matrix[x1][y1]
 
-    costs = get_num_tiles_off_position(new_mats, solution_state)  
+    costs = calculate_costs(new_matrix, solution_state)  
   
     new_nodes = Node(parent, new_matrix, new_empty_tile_coord, costs, num_level)  
     return new_nodes 
@@ -63,11 +63,12 @@ def solve_puzzle(initial, empty_tile_coord, solution):
     initial_node_costs = calculate_costs(initial, solution)
     
     root_node = Node(None, initial, empty_tile_coord, initial_node_costs, 0)
+    new_node = Node(root_node, initial, empty_tile_coord, initial_node_costs, 1)
     
     open_nodes.append(root_node)
     open_nodes.sort()
     
-    print_path(root_node, matrix_size)
+    print_path(new_node, matrix_size)
     return
 
 

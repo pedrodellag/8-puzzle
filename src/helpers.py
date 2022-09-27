@@ -13,4 +13,5 @@ def print_matrix(matrix, matrix_size):
             print("%d " % (matrix[i][j]), end = " ")  
               
         print()  
+    print()
     return
