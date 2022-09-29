@@ -33,14 +33,13 @@ def solve_puzzle(initial, empty_tile_coord, solution) -> Node:
     initial_node_costs = calculate_costs(initial, solution)
 
     root_node = Node(None, initial, empty_tile_coord, initial_node_costs, 0)
-    new_node = Node(root_node, initial, empty_tile_coord,
-                    initial_node_costs, 1)
-
+    
     open_nodes.push(root_node)
 
     while not open_nodes.empty():
 
         first_node_in_line = open_nodes.pop()
+        # visitados.push()
 
         if (first_node_in_line.cost == 0):
             return first_node_in_line
@@ -54,7 +53,7 @@ def solve_puzzle(initial, empty_tile_coord, solution) -> Node:
     return
 
 
-def generate_children_nodes(node, matrix_size) -> list[Node]:
+def generate_children_nodes(node, matrix_size) -> List[Node]:
     children = []
 
     for i in range(matrix_size):
@@ -73,11 +72,12 @@ def generate_children_nodes(node, matrix_size) -> list[Node]:
 
 if __name__ == '__main__':
     open_nodes = priorityQueue()
-    visited_nodes = priorityQueue()
+    visited_nodes = priorityQueue() #ordena?
 
     solution_path = solve_puzzle(
         initial_state, initial_state_empty_tile_coord, solution_state)
 
+    # print path
     print_summary(open_nodes, visited_nodes, initial_state, solution_path)
     print(open_nodes)
     print(visited_nodes)
