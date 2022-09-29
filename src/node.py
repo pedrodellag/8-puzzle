@@ -12,3 +12,4 @@ class Node:
 
     def __lt__(self, next):
         self.cost < next.cost
+        
