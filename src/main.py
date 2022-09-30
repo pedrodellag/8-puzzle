@@ -3,7 +3,7 @@ import sys
 
 from costs_heuristics import calculate_costs
 from data import initial_state, initial_state_empty_tile_coord, matrix_size, solution_state
-from helpers import is_in_list, print_matrix, print_path, print_summary
+from helpers import print_matrix, print_path, print_summary
 from node import Node
 from pqueue import priorityQueue
 
@@ -44,6 +44,7 @@ def solve_puzzle(initial, empty_tile_coord, solution) -> Node:
         #print("\n cost: %d", first_node_in_queue.cost)
         #print_path(first_node_in_queue, matrix_size)
         
+        print("costs list: ", open_nodes.get_costs_list())
         
         if (first_node_in_queue.cost == 0):
             return first_node_in_queue
@@ -51,8 +52,8 @@ def solve_puzzle(initial, empty_tile_coord, solution) -> Node:
         children = generate_children_nodes(first_node_in_queue, matrix_size)
 
         for child in children:
-            if(is_in_list(child, open_nodes, matrix_size) or 
-               is_in_list(child, visited_nodes, matrix_size)):
+            if(open_nodes.find_equal_node(child, matrix_size) or 
+               visited_nodes.find_equal_node(child, matrix_size)):
                 return
             
             open_nodes.push(child)
@@ -63,19 +64,22 @@ def isSafe(x, y, matrix_size):
       
     return x >= 0 and x < matrix_size and y >= 0 and y < matrix_size  
 
-def generate_children_nodes(node, matrix_size) -> list[Node]:
+def generate_children_nodes(node, matrix_size) -> [Node]:
     children = []
+    max_moves = 4
     
     # bottom, left, top, right  
     rows = [ 1, 0, -1, 0 ]  
     cols = [ 0, -1, 0, 1 ]  
 
-    for i in range(matrix_size):
+    for i in range(max_moves):
         new_tile_coord = [  
             node.empty_tile_coord[0] + rows[i],  
             node.empty_tile_coord[1] + cols[i], ]  
-        
-        print("new tile coord: %d %d", new_tile_coord[0], new_tile_coord[1])          
+        print("current tile coord: ", node.empty_tile_coord[0], node.empty_tile_coord[1])
+        print("row: ", rows[i])
+        print("col: ", cols[i])
+        print("new tile coord: ", new_tile_coord[0], new_tile_coord[1])          
         if isSafe(new_tile_coord[0], new_tile_coord[1], matrix_size):  
             child = create_node(node.matrix,
                                 node.empty_tile_coord,
