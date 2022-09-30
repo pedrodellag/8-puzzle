@@ -38,13 +38,15 @@ def solve_puzzle(initial, empty_tile_coord, solution) -> Node:
 
     while not open_nodes.empty():
 
+        print("\n Open Nodes Queue Size: ", open_nodes.size())
         first_node_in_queue = open_nodes.pop()
+        print("\n Visited Nodes Queue Size: ", visited_nodes.size())
         visited_nodes.push(first_node_in_queue)
 
         #print("\n cost: %d", first_node_in_queue.cost)
         #print_path(first_node_in_queue, matrix_size)
         
-        print("costs list: ", open_nodes.get_costs_list())
+        print("\n Node to be Evaluated. Node cost: ", first_node_in_queue.cost)
         
         if (first_node_in_queue.cost == 0):
             return first_node_in_queue
@@ -76,10 +78,10 @@ def generate_children_nodes(node, matrix_size) -> [Node]:
         new_tile_coord = [  
             node.empty_tile_coord[0] + rows[i],  
             node.empty_tile_coord[1] + cols[i], ]  
-        print("current tile coord: ", node.empty_tile_coord[0], node.empty_tile_coord[1])
-        print("row: ", rows[i])
-        print("col: ", cols[i])
-        print("new tile coord: ", new_tile_coord[0], new_tile_coord[1])          
+        #print("current tile coord: ", node.empty_tile_coord[0], node.empty_tile_coord[1])
+        #print("row: ", rows[i])
+        #print("col: ", cols[i])
+        #print("new tile coord: ", new_tile_coord[0], new_tile_coord[1])          
         if isSafe(new_tile_coord[0], new_tile_coord[1], matrix_size):  
             child = create_node(node.matrix,
                                 node.empty_tile_coord,
@@ -88,13 +90,14 @@ def generate_children_nodes(node, matrix_size) -> [Node]:
                                 node)
             children.append(child)
 
-    print("\n\n parent node matrix: ")
+    print("\n\n ---------- ")
+    print("parent node matrix: ")
     print_matrix(node.matrix, matrix_size)
-    print("---------- \n ")
+    
     for child in children:
         print("Child created: \n")
         print_matrix(child.matrix, matrix_size)
-    
+    print(" ---------- ")
     return children
 
 

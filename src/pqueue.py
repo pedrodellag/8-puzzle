@@ -1,4 +1,4 @@
-from heapq import heappush, heappop
+from heapq import heappush, heappop, heapify
 from node import Node
 
 class priorityQueue:
@@ -11,6 +11,7 @@ class priorityQueue:
 
     def push(self, key):
         heappush(self.heap, key)
+        heapify(self.heap)
 
     def pop(self):
         return heappop(self.heap)
