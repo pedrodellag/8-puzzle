@@ -31,6 +31,7 @@ def move_matrix_empty_tile_position(matrix, empty_tile_coord, new_empty_tile_coo
 
 def solve_puzzle(initial, empty_tile_coord, solution) -> Node:
     initial_node_costs = calculate_costs(initial, solution)
+    MAX_TRY_COUNT = 2000
 
     root_node = Node(None, initial, empty_tile_coord, initial_node_costs, 0)
     
@@ -42,6 +43,9 @@ def solve_puzzle(initial, empty_tile_coord, solution) -> Node:
         first_node_in_queue = open_nodes.pop()
         print("\n Visited Nodes Queue Size: ", visited_nodes.size())
         visited_nodes.push(first_node_in_queue)
+        
+        if(visited_nodes.size() > MAX_TRY_COUNT):
+            raise Exception("more than " + MAX_TRY_COUNT + " visited, solution not found")
 
         #print("\n cost: %d", first_node_in_queue.cost)
         #print_path(first_node_in_queue, matrix_size)
@@ -54,11 +58,9 @@ def solve_puzzle(initial, empty_tile_coord, solution) -> Node:
         children = generate_children_nodes(first_node_in_queue, matrix_size)
 
         for child in children:
-            if(open_nodes.find_equal_node(child, matrix_size) or 
-               visited_nodes.find_equal_node(child, matrix_size)):
-                return
-            
-            open_nodes.push(child)
+            if(open_nodes.find_equal_node(child, matrix_size) is not True and 
+               visited_nodes.find_equal_node(child, matrix_size) is not True):
+                open_nodes.push(child)
 
     return
 
