@@ -1,3 +1,4 @@
 copy
 functools
 heapq
+numpy

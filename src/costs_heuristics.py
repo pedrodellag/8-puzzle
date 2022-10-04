@@ -1,6 +1,10 @@
 from enum import Enum  
 
 from data import matrix_size
+from heuristics.manhattan_heuristic import calculate_manhattan_heuristic
+from heuristics.tiles_off_position_heuristic import get_num_tiles_off_position
+from heuristics.tiles_off_row_and_column_heuristic import calculate_out_of_row_and_column
+from heuristics.euclidean_distance_heuristic import calculate_euclidean_distance
 
 solution_array = [1, 2, 3, 4, 5, 6, 7, 8, 0]
 
@@ -27,33 +31,7 @@ def calculate_costs_simple_heuristics(problem_state, solution_state, num_level) 
     return get_num_tiles_off_position(problem_state, solution_state)
 
 def calculate_costs_complex_heuristics(problem_state, solution_state, num_level) -> int:
-    sum = 0
-    problem_arr = transform_into_array(problem_state)
-    
-    for i in range(len(solution_array)):
-        sum += abs(solution_array.index(i) - problem_arr.index(i))
-
-    return sum
-
-
-def get_num_tiles_off_position(problem_state, solution_state) -> int:
-    count = 0
-
-    for i in range(matrix_size):
-        for j in range(matrix_size):
-            if (problem_state[i][j] != solution_state[i][j]):
-                count += 1
-
-    return count
-
-def transform_into_array(matrix) -> [int]:
-    resulting_arr = []
-    
-    for i in range(matrix_size):
-        for j in range(matrix_size):
-            resulting_arr.append(matrix[i][j])
-    
-    return resulting_arr
+    return calculate_euclidean_distance(problem_state, solution_state)
 
 def is_goal(problem_node, solution_state, heuristicsType) -> bool:
     if(heuristicsType == HeuristicsType.NONE):

@@ -22,24 +22,25 @@ def print_matrix(matrix, matrix_size):
 def print_summary(open_nodes, visited_nodes, initial_state, solution_path):
     print("\n \n")
     print(" ------------------------------ ")
+    print("Estado inicial: \n")
+    print_matrix(initial_state, matrix_size)
     print("Nodos abertos: %d \n"%open_nodes.size())
     print("Nodos visitados: %d \n"%visited_nodes.size())
     print("Tamanho total do caminho: %d \n"%solution_path.num_level if solution_path is not None else 0)
     print(" ------------------------------ ")
     return
 
-
-def determine_empty_tile_coord(matrix) -> [int]:
+def determine_tile_coord(matrix, tile_num) -> [int]:
     resulting_arr = []
-    zeros_found = 0
+    tiles_found = 0
     
     for i in range(matrix_size):
         for j in range(matrix_size):
-            if (matrix[i][j] == 0):
+            if (matrix[i][j] == tile_num):
                 resulting_arr = [i, j]
-                zeros_found += 1
+                tiles_found += 1
     
-    if(zeros_found != 1): 
-        raise Exception("Error finding empty tile. Please make sure your solution has EXACTLY one zero.")
+    if(tiles_found != 1): 
+        raise Exception("Error finding tile. Please review your matrix or tile number.")
     
     return resulting_arr

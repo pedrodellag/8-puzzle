@@ -3,12 +3,12 @@ import sys
 
 from costs_heuristics import calculate_costs, HeuristicsType, is_goal
 from data import initial_state, matrix_size, solution_state
-from helpers import determine_empty_tile_coord, print_matrix, print_path, print_summary
+from helpers import determine_tile_coord, print_matrix, print_path, print_summary
 from node import Node
 from pqueue import priorityQueue
 
 MAX_TRY_COUNT = 2000
-heuristicsTypeOption = HeuristicsType.SIMPLE
+heuristicsTypeOption = HeuristicsType.COMPLEX
 
 
 def create_node(matrix, empty_tile_coord, new_empty_tile_coord, num_level, parent) -> Node:
@@ -33,7 +33,7 @@ def move_matrix_empty_tile_position(matrix, empty_tile_coord, new_empty_tile_coo
 
 
 def solve_puzzle(initial, solution) -> Node:
-    empty_tile_coord = determine_empty_tile_coord(initial)
+    empty_tile_coord = determine_tile_coord(initial, 0)
 
     initial_node_costs = calculate_costs(
         initial, solution, heuristicsTypeOption, 0)
