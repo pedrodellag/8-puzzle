@@ -1,4 +1,5 @@
 import copy
+from data import matrix_size
 
 def print_path(root_node, matrix_size):
 
@@ -21,8 +22,24 @@ def print_matrix(matrix, matrix_size):
 def print_summary(open_nodes, visited_nodes, initial_state, solution_path):
     print("\n \n")
     print(" ------------------------------ ")
-    print("Nodos abertos: %d \n", open_nodes.size())
-    print("Nodos visitados: %d \n", visited_nodes.size())
-    print("Tamanho total do caminho: %d \n", solution_path.num_level if solution_path is not None else 0)
+    print("Nodos abertos: %d \n"%open_nodes.size())
+    print("Nodos visitados: %d \n"%visited_nodes.size())
+    print("Tamanho total do caminho: %d \n"%solution_path.num_level if solution_path is not None else 0)
     print(" ------------------------------ ")
     return
+
+
+def determine_empty_tile_coord(matrix) -> [int]:
+    resulting_arr = []
+    zeros_found = 0
+    
+    for i in range(matrix_size):
+        for j in range(matrix_size):
+            if (matrix[i][j] == 0):
+                resulting_arr = [i, j]
+                zeros_found += 1
+    
+    if(zeros_found != 1): 
+        raise Exception("Error finding empty tile. Please make sure your solution has EXACTLY one zero.")
+    
+    return resulting_arr
